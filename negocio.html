@@ -145,6 +145,15 @@
           btnAbrir.href = 'toka://negocio/' + negocioId;
         }
 
+        // Al cargar, intenta abrir la app sola. Si está instalada, se abre el perfil del negocio.
+        // Si no lo está (o el navegador no lo permite), la página se queda mostrando los botones.
+        if (esAndroid && /chrome/i.test(navigator.userAgent)) {
+          setTimeout(function () {
+            window.location.href = 'intent://negocio/' + negocioId +
+              '#Intent;scheme=toka;package=com.example.tarjeta_nfc_app;end';
+          }, 400);
+        }
+
         if (ENLACE_DESCARGA) {
           btnDescargar.href = ENLACE_DESCARGA;
         } else {
