@@ -128,11 +128,28 @@
           </div>
         `;
 
-        // Por ahora ambos botones llevan al mismo lugar (la tienda),
-        // hasta que activemos el salto automático a la app instalada.
-        const enlaceTienda = 'https://play.google.com/store/apps'; // lo actualizamos cuando publiquemos
-        document.getElementById('btnAbrirApp').href = enlaceTienda;
-        document.getElementById('btnDescargar').href = enlaceTienda;
+        // Pon aquí el enlace de descarga del .apk (por ejemplo un enlace compartido de Google Drive).
+        // Si lo dejas vacío, el botón "Descargar la app" se oculta.
+        const ENLACE_DESCARGA = '';
+
+        const btnAbrir = document.getElementById('btnAbrirApp');
+        const btnDescargar = document.getElementById('btnDescargar');
+        const esAndroid = /android/i.test(navigator.userAgent);
+
+        if (esAndroid) {
+          // Abre la app ya instalada; si no está instalada, ofrece la descarga.
+          let alternativa = ENLACE_DESCARGA ? ';S.browser_fallback_url=' + encodeURIComponent(ENLACE_DESCARGA) : '';
+          btnAbrir.href = 'intent://negocio/' + negocioId +
+            '#Intent;scheme=toka;package=com.example.tarjeta_nfc_app' + alternativa + ';end';
+        } else {
+          btnAbrir.href = 'toka://negocio/' + negocioId;
+        }
+
+        if (ENLACE_DESCARGA) {
+          btnDescargar.href = ENLACE_DESCARGA;
+        } else {
+          btnDescargar.style.display = 'none';
+        }
       } catch (e) {
         contenedor.innerHTML = '<p class="error">Error al cargar la información.</p>';
       }
