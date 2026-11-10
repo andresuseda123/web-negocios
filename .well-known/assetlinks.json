@@ -1,0 +1,10 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.example.tarjeta_nfc_app",
+      "sha256_cert_fingerprints": ["2B:4F:BB:F0:7A:8A:FB:EC:3E:56:D1:B8:A2:96:F1:6B:7F:5F:4E:54:36:A3:FF:46:88:65:A6:C7:58:04:F9:34"]
+    }
+  }
+]

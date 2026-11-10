@@ -80,8 +80,19 @@
 
     const contenedor = document.getElementById('contenido');
 
+    // Escapa texto antes de meterlo en el HTML (evita que un negocio inyecte código).
+    function esc(valor) {
+      return String(valor ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
     async function cargarNegocio() {
-      if (!negocioId) {
+      // El ID del negocio es un número: cualquier otra cosa en la URL se descarta.
+      if (!negocioId || !/^[0-9]+$/.test(negocioId)) {
         contenedor.innerHTML = '<p class="error">No se especificó ningún negocio.</p>';
         return;
       }
@@ -107,10 +118,10 @@
 
         contenedor.innerHTML = `
           <div class="icono">🏪</div>
-          <h1>${negocio.nombre || 'Negocio'}</h1>
-          ${negocio.categoria ? `<span class="categoria">${negocio.categoria}</span>` : ''}
-          <p class="descripcion">${negocio.descripcion || ''}</p>
-          <p class="direccion">${negocio.direccion || ''}</p>
+          <h1>${esc(negocio.nombre || 'Negocio')}</h1>
+          ${negocio.categoria ? `<span class="categoria">${esc(negocio.categoria)}</span>` : ''}
+          <p class="descripcion">${esc(negocio.descripcion)}</p>
+          <p class="direccion">${esc(negocio.direccion)}</p>
           <div class="botones">
             <a class="btn btn-principal" href="#" id="btnAbrirApp">Abrir en la app</a>
             <a class="btn btn-secundario" href="#" id="btnDescargar">Descargar la app</a>
